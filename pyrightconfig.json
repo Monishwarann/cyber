@@ -1,0 +1,16 @@
+{
+    "pythonVersion": "3.10",
+    "pythonPlatform": "Windows",
+    "venvPath": "",
+    "extraPaths": [
+        "C:\\Users\\kmoni\\AppData\\Local\\Programs\\Python\\Python310\\Lib\\site-packages"
+    ],
+    "reportMissingImports": false,
+    "reportMissingModuleSource": false,
+    "reportGeneralTypeIssues": false,
+    "reportOptionalSubscript": false,
+    "reportOptionalMemberAccess": false,
+    "reportArgumentType": false,
+    "reportAttributeAccessIssue": false,
+    "typeCheckingMode": "off"
+}

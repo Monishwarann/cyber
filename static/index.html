@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Shield | AI-Powered Phishing Detection</title>
+    <meta name="description"
+        content="Real-Time AI/ML-Based Phishing Detection and Prevention System powered by Gemini AI, VirusTotal, and ensemble machine learning.">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="C:\Users\kmoni\OneDrive\monish\wr logo.jpeg">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+    <div class="grid-bg"></div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="app-container">
+        <!-- ═══ Navigation ════════════════════════════════════════ -->
+        <nav class="navbar">
+            <a href="#" class="navbar-brand" onclick="showPage('scanner')">
+                <div class="navbar-logo"><img src="C:\Users\kmoni\OneDrive\monish\wr logo.jpeg" alt="Logo"></div>
+                <div>
+                    <div class="navbar-title">Cyber Shield</div>
+                    <div class="navbar-subtitle">AI Phishing Defense</div>
+                </div>
+            </a>
+
+            <div class="navbar-nav">
+                <button class="nav-btn active" id="nav-scanner" onclick="showPage('scanner')">
+                    🔍 Scanner
+                </button>
+                <button class="nav-btn" id="nav-dashboard" onclick="showPage('dashboard')">
+                    📊 Dashboard
+                </button>
+                <button class="nav-btn" id="nav-history" onclick="showPage('history')">
+                    📋 History
+                </button>
+                <button class="nav-btn" id="nav-models" onclick="showPage('models')">
+                    🤖 AI Models
+                </button>
+            </div>
+
+            <div class="navbar-status">
+                <div class="status-indicator">
+                    <span class="status-dot" id="systemStatusDot"></span>
+                    <span id="systemStatusText">Connecting...</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ═══ Main Content ══════════════════════════════════════ -->
+        <main class="main-content">
+
+            <!-- ──── Scanner Page ──────────────────────────────── -->
+            <section class="page-section active" id="page-scanner">
+                <div class="hero-scanner">
+                    <h1 class="hero-title">Intelligent Phishing Detection</h1>
+                    <p class="hero-subtitle">
+                        Analyze URLs and content in real-time with AI-powered multi-engine detection.
+                        Gemini AI reasoning • VirusTotal intelligence • AbuseIPDB IP reputation • ML ensemble scoring.
+                    </p>
+
+                    <!-- URL Scanner -->
+                    <div class="scanner-container" id="urlScanner">
+                        <div class="scanner-input-group">
+                            <input type="text" class="scanner-input" id="urlInput"
+                                placeholder="Enter a URL to scan (e.g., https://suspicious-site.com/login)"
+                                autocomplete="off" spellcheck="false">
+                            <button class="scan-btn" id="scanBtn" onclick="performScan()">
+                                <div class="spinner"></div>
+                                <span class="btn-text">⚡ Scan Now</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Content Scanner -->
+                    <div class="content-scanner" id="contentScanner">
+                        <div class="content-input-group">
+                            <div class="content-meta">
+                                <input type="text" class="meta-input" id="senderInput"
+                                    placeholder="📧 Sender email (e.g., support@paypal-security.com)">
+                                <input type="text" class="meta-input" id="subjectInput" placeholder="📌 Subject line">
+                            </div>
+                            <textarea class="content-textarea" id="contentInput"
+                                placeholder="Paste the email, SMS, or message content here for phishing analysis...&#10;&#10;Example: Dear user, your account will be suspended unless you verify your identity immediately..."></textarea>
+                            <button class="content-scan-btn" id="contentScanBtn" onclick="performContentScan()">
+                                <div class="spinner"></div>
+                                <span class="btn-text">🤖 Analyze Content</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Scan Type Tabs -->
+                    <div class="scan-tabs">
+                        <button class="scan-tab active" id="tab-url" onclick="switchScanTab('url')">
+                            🔗 URL Scan
+                        </button>
+                        <button class="scan-tab" id="tab-content" onclick="switchScanTab('content')">
+                            📧 Email/Content Scan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-grid" id="quickStats">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">🔍</div>
+                        <div class="stat-value" id="statTotalScans">0</div>
+                        <div class="stat-label">Total Scans</div>
+                        <div class="stat-change up">↑ Active</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red">🚨</div>
+                        <div class="stat-value" id="statThreats">0</div>
+                        <div class="stat-label">Threats Detected</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">✅</div>
+                        <div class="stat-value" id="statSafe">0</div>
+                        <div class="stat-label">Safe URLs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon cyan">⚡</div>
+                        <div class="stat-value" id="statAvgTime">0<span
+                                style="font-size:0.9rem;color:var(--text-muted)">ms</span></div>
+                        <div class="stat-label">Avg Response</div>
+                    </div>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="results-panel" id="resultsPanel">
+                    <div class="result-card" id="resultCard">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ──── Dashboard Page ────────────────────────────── -->
+            <section class="page-section" id="page-dashboard">
+                <h2 style="font-size:1.6rem;font-weight:800;margin-bottom:8px;">Threat Analytics</h2>
+                <p style="color:var(--text-muted);margin-bottom:28px;">Real-time monitoring and analytics of phishing
+                    detection activity.</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">🎯</div>
+                        <div class="stat-value" id="dashAccuracy">96.7<span style="font-size:1rem">%</span></div>
+                        <div class="stat-label">Detection Accuracy</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">📉</div>
+                        <div class="stat-value" id="dashFPR">1.8<span style="font-size:1rem">%</span></div>
+                        <div class="stat-label">False Positive Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">🤖</div>
+                        <div class="stat-value" id="dashModels">5</div>
+                        <div class="stat-label">Active Models</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">📊</div>
+                        <div class="stat-value" id="dashToday">0</div>
+                        <div class="stat-label">Scans Today</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Activity Chart -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>📈 24-Hour Activity</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-chart" id="activityChart">
+                                <!-- Generated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Threat Breakdown -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>🎯 Threat Breakdown</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="threat-breakdown-chart" id="threatBreakdown">
+                                <div class="breakdown-item">
+                                    <span class="breakdown-label" style="color:var(--threat-safe)">Safe</span>
+                                    <div class="breakdown-bar">
+                                        <div class="breakdown-fill safe" id="breakdownSafe" style="width:0%"></div>
+                                    </div>
+                                    <span class="breakdown-count" id="countSafe">0</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <span class="breakdown-label" style="color:var(--threat-low)">Low</span>
+                                    <div class="breakdown-bar">
+                                        <div class="breakdown-fill low" id="breakdownLow" style="width:0%"></div>
+                                    </div>
+                                    <span class="breakdown-count" id="countLow">0</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <span class="breakdown-label" style="color:var(--threat-medium)">Medium</span>
+                                    <div class="breakdown-bar">
+                                        <div class="breakdown-fill medium" id="breakdownMedium" style="width:0%"></div>
+                                    </div>
+                                    <span class="breakdown-count" id="countMedium">0</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <span class="breakdown-label" style="color:var(--threat-high)">High</span>
+                                    <div class="breakdown-bar">
+                                        <div class="breakdown-fill high" id="breakdownHigh" style="width:0%"></div>
+                                    </div>
+                                    <span class="breakdown-count" id="countHigh">0</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <span class="breakdown-label" style="color:var(--threat-critical)">Critical</span>
+                                    <div class="breakdown-bar">
+                                        <div class="breakdown-fill critical" id="breakdownCritical" style="width:0%">
+                                        </div>
+                                    </div>
+                                    <span class="breakdown-count" id="countCritical">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ──── History Page ──────────────────────────────── -->
+            <section class="page-section" id="page-history">
+                <h2 style="font-size:1.6rem;font-weight:800;margin-bottom:8px;">Scan History</h2>
+                <p style="color:var(--text-muted);margin-bottom:28px;">Review all past phishing detection scans and
+                    their results.</p>
+
+                <div class="card">
+                    <div class="card-body" style="padding:0;">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Scan ID</th>
+                                    <th>Target</th>
+                                    <th>Type</th>
+                                    <th>Risk Score</th>
+                                    <th>Status</th>
+                                    <th>Time</th>
+                                    <th>Timestamp</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <tr>
+                                    <td colspan="7">
+                                        <div class="empty-state">
+                                            <div class="empty-icon">📋</div>
+                                            <h3>No scans yet</h3>
+                                            <p>Start scanning URLs or content to see results here.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ──── Models Page ───────────────────────────────── -->
+            <section class="page-section" id="page-models">
+                <h2 style="font-size:1.6rem;font-weight:800;margin-bottom:8px;">AI/ML Models</h2>
+                <p style="color:var(--text-muted);margin-bottom:28px;">View the status and performance of all detection
+                    engines in the ensemble.</p>
+
+                <div class="models-grid" id="modelsGrid">
+                    <!-- Generated dynamically -->
+                </div>
+
+                <!-- Ensemble Info -->
+                <div class="card" style="margin-top:24px;">
+                    <div class="card-header">
+                        <h3>🧠 Ensemble Architecture</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;text-align:center;">
+                            <div>
+                                <div style="font-size:2rem;margin-bottom:8px;">🔗</div>
+                                <div style="font-size:0.85rem;font-weight:600;margin-bottom:4px;">URL Analysis</div>
+                                <div style="font-size:0.75rem;color:var(--text-muted);">Weight: 27%</div>
+                            </div>
+                            <div>
+                                <div style="font-size:2rem;margin-bottom:8px;">📝</div>
+                                <div style="font-size:0.85rem;font-weight:600;margin-bottom:4px;">NLP Engine</div>
+                                <div style="font-size:0.75rem;color:var(--text-muted);">Weight: 18%</div>
+                            </div>
+                            <div>
+                                <div style="font-size:2rem;margin-bottom:8px;">🤖</div>
+                                <div style="font-size:0.85rem;font-weight:600;margin-bottom:4px;">Gemini AI</div>
+                                <div style="font-size:0.75rem;color:var(--text-muted);">Weight: 31%</div>
+                            </div>
+                            <div>
+                                <div style="font-size:2rem;margin-bottom:8px;">🛡️</div>
+                                <div style="font-size:0.85rem;font-weight:600;margin-bottom:4px;">VirusTotal</div>
+                                <div style="font-size:0.75rem;color:var(--text-muted);">Weight: 14%</div>
+                            </div>
+                            <div>
+                                <div style="font-size:2rem;margin-bottom:8px;">🚨</div>
+                                <div style="font-size:0.85rem;font-weight:600;margin-bottom:4px;">AbuseIPDB</div>
+                                <div style="font-size:0.75rem;color:var(--text-muted);">Weight: 10%</div>
+                            </div>
+                        </div>
+                        <div
+                            style="text-align:center;margin-top:20px;padding-top:20px;border-top:1px solid var(--border);">
+                            <div style="font-size:1.2rem;margin-bottom:4px;">⬇️</div>
+                            <div style="font-size:0.85rem;font-weight:700;color:var(--accent-cyan);">Ensemble Score →
+                                Threat Classification → Explainable Output</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
