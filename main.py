@@ -56,6 +56,11 @@ STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 os.makedirs(STATIC_DIR, exist_ok=True)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
+# Mount public folder for Vercel/Root assets
+PUBLIC_DIR = os.path.join(os.path.dirname(__file__), "public")
+os.makedirs(PUBLIC_DIR, exist_ok=True)
+app.mount("/public", StaticFiles(directory=PUBLIC_DIR), name="public")
+
 # ─── Initialize AI/ML Components ─────────────────────────────────
 gemini = GeminiPhishingAnalyzer()
 virustotal = VirusTotalChecker()
