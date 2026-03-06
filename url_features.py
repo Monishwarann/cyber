@@ -11,6 +11,9 @@ from collections import Counter
 from typing import List, Dict, Tuple
 import tldextract  # type: ignore[import]
 
+# Configure tldextract to use /tmp for cache (needed for Vercel/Read-only FS)
+extract = tldextract.TLDExtract(cache_dir='/tmp/.tldextract_cache')
+
 
 # Suspicious TLDs commonly used in phishing
 SUSPICIOUS_TLDS = {
@@ -83,7 +86,7 @@ def detect_homoglyphs(domain: str) -> List[str]:
 def check_brand_impersonation(domain: str) -> List[str]:
     """Check if the domain is attempting to impersonate a known brand."""
     findings = []
-    extracted = tldextract.extract(domain)
+    extracted = extract(domain)
     full_domain = f"{extracted.domain}.{extracted.suffix}"
 
     for brand in BRAND_DOMAINS:
@@ -110,7 +113,7 @@ def extract_url_features(url: str) -> Dict:
     """
     try:
         parsed = urlparse(url)
-        extracted = tldextract.extract(url)
+        extracted = extract(url)
 
         # Basic URL features
         url_length = len(url)
