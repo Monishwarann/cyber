@@ -62,17 +62,6 @@ if not os.path.exists(STATIC_DIR):
 if os.path.exists(STATIC_DIR):
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-# Mount public folder for Vercel/Root assets
-PUBLIC_DIR = os.path.join(os.path.dirname(__file__), "public")
-if not os.path.exists(PUBLIC_DIR):
-    try:
-        os.makedirs(PUBLIC_DIR, exist_ok=True)
-    except Exception:
-        pass # Read-only FS
-
-if os.path.exists(PUBLIC_DIR):
-    app.mount("/public", StaticFiles(directory=PUBLIC_DIR), name="public")
-
 # ─── Initialize AI/ML Components ─────────────────────────────────
 gemini = GeminiPhishingAnalyzer()
 virustotal = VirusTotalChecker()
