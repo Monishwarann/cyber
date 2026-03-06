@@ -209,16 +209,30 @@ body {
 }
 
 .navbar-logo {
-    width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    box-shadow: var(--shadow-glow);
-    animation: pulse-glow 3s ease-in-out infinite;
+    width: 48px !important;
+    height: 48px !important;
+    flex-shrink: 0 !important;
+    background: var(--bg-tertiary) !important;
+    border-radius: var(--radius-md) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 0 15px rgba(108, 99, 255, 0.2) !important;
+    animation: pulse-glow 3s ease-in-out infinite !important;
+    overflow: hidden !important;
+    border: 1px solid var(--border) !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.navbar-logo img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 !important;
 }
 
 @keyframes pulse-glow {
